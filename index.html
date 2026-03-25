@@ -43,7 +43,7 @@
             margin-bottom: 15px;
         }
 
-        /* BRIGHT OUTER CIRCLE - Slow, Reacting bounce */
+        /* BRIGHT OUTER CIRCLE */
         .outer-pulse-bright {
             position: absolute;
             width: 100%; height: 100%;
@@ -53,7 +53,7 @@
             animation: outer-bounce 2.8s ease-in-out infinite;
         }
 
-        /* DARKER INNER CIRCLE - Faster, deeper thump */
+        /* DARKER INNER CIRCLE */
         .inner-pulse-dark {
             position: absolute;
             width: 82%; height: 82%;
@@ -63,7 +63,7 @@
             animation: inner-thump 1.9s ease-in-out infinite;
         }
 
-        /* THE WHITE CENTER - Centering the Logo */
+        /* THE WHITE CENTER - NO BORDER */
         .inner-circle-static {
             position: relative;
             width: 125px; height: 125px;
@@ -71,16 +71,15 @@
             border-radius: 50%;
             z-index: 3;
             display: flex; 
-            justify-content: center; /* Centers horizontally */
-            align-items: center;     /* Centers vertically */
+            justify-content: center; 
+            align-items: center;
             overflow: hidden;
         }
 
-        /* Perfect Logo Fit */
         .inner-circle-static img { 
             width: 100%; 
             height: 100%; 
-            object-fit: contain; /* Keeps logo from stretching */
+            object-fit: contain;
             display: block;
         }
 
@@ -160,7 +159,7 @@
         <div class="outer-pulse-bright" id="outer"></div>
         <div class="inner-pulse-dark" id="inner"></div>
         <div class="inner-circle-static">
-            <img src="1000102092.jpg" alt="CARTS Logo">
+            <img src="logo.jpg" alt="CARTS Logo">
         </div>
     </div>
 
