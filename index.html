@@ -43,6 +43,7 @@
             margin-bottom: 15px;
         }
 
+        /* BRIGHT OUTER CIRCLE */
         .outer-pulse-bright {
             position: absolute;
             width: 100%; height: 100%;
@@ -52,6 +53,7 @@
             animation: outer-bounce 2.8s ease-in-out infinite;
         }
 
+        /* DARKER INNER CIRCLE */
         .inner-pulse-dark {
             position: absolute;
             width: 82%; height: 82%;
@@ -61,7 +63,7 @@
             animation: inner-thump 1.9s ease-in-out infinite;
         }
 
-        /* Centering the Logo precisely */
+        /* THE WHITE CENTER - Centering the Logo */
         .inner-circle-static {
             position: relative;
             width: 125px; height: 125px;
@@ -71,12 +73,14 @@
             display: flex; 
             justify-content: center; 
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* This clips the square corners of your image */
         }
 
+        /* This makes the square image fill the circle and centers it */
         .inner-circle-static img { 
-            width: 90%; /* Adjust this if the logo is too small or large */
-            height: auto; 
+            width: 140%; /* Increased to hide the white borders of your JPG */
+            height: 140%; 
+            object-fit: contain; 
             display: block;
         }
 
