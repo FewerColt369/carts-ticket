@@ -4,73 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>CARTS Ticket</title>
     <style>
-        body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding-top: 30px; }
-        .header { font-size: 14px; margin-bottom: 20px; color: #333; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding-top: 30px; 
+            background-color: #ffffff;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .header { 
+            font-size: 14px; 
+            margin-bottom: 25px; 
+            color: #333; 
+            font-weight: 400;
+        }
         
-        /* The Red Ball */
+        /* The Red Ball with Heartbeat Animation */
         .outer-circle {
             position: relative;
-            width: 180px; height: 180px;
-            background-color: #E31837;
+            width: 185px; height: 185px;
+            background-color: #E31837; /* CARTS Red */
             border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(227, 24, 55, 0.2);
+            
+            /* Heartbeat trigger */
+            animation: heartbeat 1.5s ease-in-out infinite;
+            transform-origin: center;
         }
+
         .inner-circle {
-            width: 100px; height: 100px;
+            width: 105px; height: 105px;
             background: white;
             border-radius: 50%;
             z-index: 2;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 12px; font-weight: bold; text-align: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-size: 11px; 
+            font-weight: 800; 
+            text-align: center;
+            color: black;
+            border: 2px solid black;
         }
-        
-        /* The Shimmer Animation */
-        .shimmer {
-            position: absolute;
-            top: 0; left: -150%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 2.5s infinite linear;
-            z-index: 1;
-        }
-        @keyframes shine { 100% { left: 150%; } }
 
-        #clock { font-size: 40px; font-weight: bold; margin: 20px 0; }
-        .btn { background: #FFC107; width: 90%; padding: 15px; border-radius: 30px; text-align: center; font-size: 28px; font-weight: bold; color: white; margin-bottom: 20px; }
-        .info { width: 85%; border-top: 1px solid #ddd; padding-top: 20px; }
-        .expiry { font-weight: bold; margin-top: 10px; }
+        /* The Realistic Double-Thump Heartbeat */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            10% { transform: scale(1.12); } /* First beat (Lub) */
+            20% { transform: scale(1); }
+            30% { transform: scale(1.08); } /* Second beat (Dub) */
+            40% { transform: scale(1); }
+            100% { transform: scale(1); }  /* Rest period */
+        }
+
+        #clock { 
+            font-size: 44px; 
+            font-weight: 700; 
+            margin: 25px 0; 
+            color: #222;
+        }
+
+        .btn { 
+            background: #FFC107; 
+            width: 90%; 
+            padding: 16px 0; 
+            border-radius: 40px; 
+            text-align: center; 
+            font-size: 30px; 
+            font-weight: bold; 
+            color: white; 
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .info { 
+            width: 88%; 
+            border-top: 1.5px solid #eee; 
+            padding-top: 25px; 
+        }
+
+        .ticket-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .counties {
+            font-size: 13px; 
+            color: #666; 
+            line-height: 1.4;
+            display: block;
+        }
+
+        .expiry { 
+            font-weight: bold; 
+            margin-top: 18px; 
+            font-size: 16px;
+            color: #111;
+        }
     </style>
 </head>
 <body>
     <div class="header">Show operator your ticket</div>
-    <div class="outer-circle">
-        <div class="shimmer"></div>
-        <div class="inner-circle">CARTS<br>TRANSPORT</div>
+    
+    <div class="outer-circle" id="heart">
+        <div class="inner-circle">
+            SYSTEM<br>CENTRAL AREA RURAL<br>TRANSPORTATION
+        </div>
     </div>
+
     <div id="clock">00:00:00 PM</div>
+    
     <div class="btn">All Day</div>
+    
     <div class="info">
-        <b>Interurban All Day - 1517 Express</b><br>
-        <span style="font-size: 12px; color: #666;">Bastrop, Blanco, Burnet, Caldwell, Fayette, Hays, Lee, Llano, Travis, and Williamson Counties, TX</span>
+        <span class="ticket-title">Interurban All Day - 1517 Express</span>
+        <span class="counties">Bastrop, Blanco, Burnet, Caldwell, Fayette, Hays, Lee, Llano, Travis, and Williamson Counties, TX</span>
         <p class="expiry" id="exp"></p>
     </div>
 
     <script>
+        const heartElement = document.getElementById('heart');
+
         function update() {
+            // Update the live clock
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString();
+
+            // Slightly randomize the beat speed every second to make it look human
+            const randomDuration = (Math.random() * (1.7 - 1.2) + 1.2).toFixed(2);
+            heartElement.style.animationDuration = randomDuration + 's';
         }
+
+        // Run clock every second
         setInterval(update, 1000);
         update();
         
-        // Set expiry to tomorrow
+        // Auto-generate expiry date (Tomorrow at 7:21 AM)
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        document.getElementById('exp').innerText = "Expires " + tomorrow.toLocaleDateString() + ", 7:21 AM";
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        document.getElementById('exp').innerText = "Expires " + tomorrow.toLocaleDateString('en-US', options) + ", 7:21 AM";
     </script>
 </body>
 </html>
