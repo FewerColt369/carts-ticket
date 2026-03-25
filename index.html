@@ -12,20 +12,6 @@
             margin: 0; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <title>CARTS Ticket</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
             align-items: center; 
             padding-top: 55px; 
             background-color: #ffffff;
@@ -57,7 +43,7 @@
             margin-bottom: 15px;
         }
 
-        /* BRIGHT OUTER CIRCLE */
+        /* BRIGHT OUTER CIRCLE - Layer 1 */
         .outer-pulse-bright {
             position: absolute;
             width: 100%; height: 100%;
@@ -67,7 +53,7 @@
             animation: outer-bounce 2.8s ease-in-out infinite;
         }
 
-        /* DARKER INNER CIRCLE */
+        /* DARKER INNER CIRCLE - Layer 2 */
         .inner-pulse-dark {
             position: absolute;
             width: 82%; height: 82%;
@@ -77,23 +63,24 @@
             animation: inner-thump 1.9s ease-in-out infinite;
         }
 
-        /* THE WHITE CENTER - Centering the Logo */
+        /* THE WHITE CENTER - Layer 3 (Highest) */
         .inner-circle-static {
             position: relative;
             width: 125px; height: 125px;
             background: white;
             border-radius: 50%;
-            z-index: 3;
+            z-index: 10; /* High number so red never covers it */
             display: flex; 
             justify-content: center; 
             align-items: center;
-            overflow: hidden; /* Clips square corners */
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05); /* Subtle edge definition */
         }
 
-        /* ADJUSTED: Making the square image slightly smaller */
+        /* Logo made smaller to show the white circle properly */
         .inner-circle-static img { 
-            width: 115%; /* Reduced from 140% to make it tiny smaller */
-            height: 115%; 
+            width: 85%; 
+            height: 85%; 
             object-fit: contain; 
             display: block;
         }
@@ -101,7 +88,7 @@
         @keyframes inner-thump {
             0% { transform: scale(1); }
             10% { transform: scale(1.15); }
-            25% { transform: scale(0.60); }
+            25% { transform: scale(0.85); } /* Don't let it shrink too much */
             40% { transform: scale(1.05); } 
             100% { transform: scale(1); }
         }
@@ -109,192 +96,7 @@
         @keyframes outer-bounce {
             0% { transform: scale(1); }
             20% { transform: scale(1.30); } 
-            40% { transform: scale(0.80); } 
-            60% { transform: scale(1.1); } 
-            100% { transform: scale(1); }
-        }
-
-        #clock { 
-            font-size: 60px; 
-            font-weight: 700; 
-            margin: 15px 0; 
-            color: #555555; 
-        }
-
-        .btn { 
-            background: #FFB800; 
-            width: 92%; 
-            padding: 8px 0; 
-            border-radius: 50px; 
-            text-align: center; 
-            font-size: 42px; 
-            font-weight: 900; 
-            color: #ffffff; 
-            margin-bottom: 35px;
-            line-height: 1.1;
-        }
-
-        .info { 
-            width: 90%; 
-            border-top: 1.5px solid #f2f2f2; 
-            padding-top: 25px; 
-        }
-
-        .ticket-title { 
-            font-size: 23px; 
-            font-weight: 600; 
-            display: block; 
-            color: #222222;
-        }
-
-        .counties { 
-            font-size: 14px; 
-            color: #666666; 
-            display: block; 
-            margin-top: 8px; 
-            line-height: 1.4; 
-        }
-
-        .expiry { 
-            font-weight: 500; 
-            margin-top: 25px; 
-            font-size: 17px; 
-            color: #555555; 
-        }
-
-    </style>
-</head>
-<body>
-    <div class="header-container">
-        <div class="top-brand">CARTS</div>
-        <div class="header-instruction">Show operator your ticket</div>
-    </div>
-    
-    <div class="ticket-visual">
-        <div class="outer-pulse-bright" id="outer"></div>
-        <div class="inner-pulse-dark" id="inner"></div>
-        <div class="inner-circle-static">
-            <img src="logo.jpg" alt="CARTS Logo">
-        </div>
-    </div>
-
-    <div id="clock">00:00:00 PM</div>
-    
-    <div class="btn">All Day</div>
-    
-    <div class="info">
-        <span class="ticket-title">Interurban All Day - 1517 Express</span>
-        <span class="counties">Bastrop, Blanco, Burnet, Caldwell, Fayette, Hays, Lee, Llano, Travis, and Williamson Counties, TX</span>
-        <p class="expiry" id="exp"></p>
-    </div>
-
-    <script>
-        function update() {
-            const now = new Date();
-            let hours = now.getHours();
-            let minutes = (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-            let seconds = (now.getSeconds() < 10 ? '0' : '') + now.getSeconds();
-            let ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12; 
-            document.getElementById('clock').innerText = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-        }
-
-        function setExpiry() {
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            document.getElementById('exp').innerText = "Expires " + monthNames[tomorrow.getMonth()] + " " + tomorrow.getDate() + ", " + tomorrow.getFullYear() + ", 7:21 AM";
-        }
-
-        setInterval(update, 1000);
-        update();
-        setExpiry();
-    </script>
-</body>
-</html>
-            padding-top: 55px; 
-            background-color: #ffffff;
-            user-select: none;
-        }
-
-        .header-container {
-            width: 90%;
-            text-align: left;
-            margin-bottom: 45px;
-            color: #555555; 
-        }
-
-        .top-brand {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 4px;
-        }
-
-        .header-instruction { 
-            font-size: 15px; 
-            font-weight: 700;
-        }
-        
-        .ticket-visual {
-            position: relative;
-            width: 215px; height: 215px;
-            display: flex; justify-content: center; align-items: center;
-            margin-bottom: 15px;
-        }
-
-        /* BRIGHT OUTER CIRCLE */
-        .outer-pulse-bright {
-            position: absolute;
-            width: 100%; height: 100%;
-            background-color: #FF0000; 
-            border-radius: 50%;
-            z-index: 1;
-            animation: outer-bounce 2.8s ease-in-out infinite;
-        }
-
-        /* DARKER INNER CIRCLE */
-        .inner-pulse-dark {
-            position: absolute;
-            width: 82%; height: 82%;
-            background-color: #AA0000; 
-            border-radius: 50%;
-            z-index: 2;
-            animation: inner-thump 1.9s ease-in-out infinite;
-        }
-
-        /* THE WHITE CENTER - Centering the Logo */
-        .inner-circle-static {
-            position: relative;
-            width: 125px; height: 125px;
-            background: white;
-            border-radius: 50%;
-            z-index: 3;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            overflow: hidden; /* This clips the square corners of your image */
-        }
-
-        /* This makes the square image fill the circle and centers it */
-        .inner-circle-static img { 
-            width: 140%; /* Increased to hide the white borders of your JPG */
-            height: 140%; 
-            object-fit: contain; 
-            display: block;
-        }
-
-        @keyframes inner-thump {
-            0% { transform: scale(1); }
-            10% { transform: scale(1.15); }
-            25% { transform: scale(0.60); }
-            40% { transform: scale(1.05); } 
-            100% { transform: scale(1); }
-        }
-
-        @keyframes outer-bounce {
-            0% { transform: scale(1); }
-            20% { transform: scale(1.30); } 
-            40% { transform: scale(0.80); } 
+            40% { transform: scale(0.90); } /* Don't let it shrink too much */
             60% { transform: scale(1.1); } 
             100% { transform: scale(1); }
         }
