@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>CARTS Ticket</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding-top: 30px; }
+        .header { font-size: 14px; margin-bottom: 20px; color: #333; }
+        
+        /* The Red Ball */
+        .outer-circle {
+            position: relative;
+            width: 180px; height: 180px;
+            background-color: #E31837;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+        }
+        .inner-circle {
+            width: 100px; height: 100px;
+            background: white;
+            border-radius: 50%;
+            z-index: 2;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 12px; font-weight: bold; text-align: center;
+        }
+        
+        /* The Shimmer Animation */
+        .shimmer {
+            position: absolute;
+            top: 0; left: -150%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shine 2.5s infinite linear;
+            z-index: 1;
+        }
+        @keyframes shine { 100% { left: 150%; } }
+
+        #clock { font-size: 40px; font-weight: bold; margin: 20px 0; }
+        .btn { background: #FFC107; width: 90%; padding: 15px; border-radius: 30px; text-align: center; font-size: 28px; font-weight: bold; color: white; margin-bottom: 20px; }
+        .info { width: 85%; border-top: 1px solid #ddd; padding-top: 20px; }
+        .expiry { font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">Show operator your ticket</div>
+    <div class="outer-circle">
+        <div class="shimmer"></div>
+        <div class="inner-circle">CARTS<br>TRANSPORT</div>
+    </div>
+    <div id="clock">00:00:00 PM</div>
+    <div class="btn">All Day</div>
+    <div class="info">
+        <b>Interurban All Day - 1517 Express</b><br>
+        <span style="font-size: 12px; color: #666;">Bastrop, Blanco, Burnet, Caldwell, Fayette, Hays, Lee, Llano, Travis, and Williamson Counties, TX</span>
+        <p class="expiry" id="exp"></p>
+    </div>
+
+    <script>
+        function update() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(update, 1000);
+        update();
+        
+        // Set expiry to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('exp').innerText = "Expires " + tomorrow.toLocaleDateString() + ", 7:21 AM";
+    </script>
+</body>
+</html>
