@@ -43,7 +43,6 @@
             margin-bottom: 15px;
         }
 
-        /* BRIGHT OUTER CIRCLE */
         .outer-pulse-bright {
             position: absolute;
             width: 100%; height: 100%;
@@ -53,7 +52,6 @@
             animation: outer-bounce 2.8s ease-in-out infinite;
         }
 
-        /* DARKER INNER CIRCLE */
         .inner-pulse-dark {
             position: absolute;
             width: 82%; height: 82%;
@@ -63,7 +61,7 @@
             animation: inner-thump 1.9s ease-in-out infinite;
         }
 
-        /* THE WHITE CENTER - NO BORDER */
+        /* Centering the Logo precisely */
         .inner-circle-static {
             position: relative;
             width: 125px; height: 125px;
@@ -77,9 +75,8 @@
         }
 
         .inner-circle-static img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain;
+            width: 90%; /* Adjust this if the logo is too small or large */
+            height: auto; 
             display: block;
         }
 
